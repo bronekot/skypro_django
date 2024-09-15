@@ -1,0 +1,74 @@
+[
+    {
+        "model": "catalog.product",
+        "pk": 1,
+        "fields": {
+            "name": "HP M428",
+            "description": "Лазерный принтер. Черно-белый.",
+            "image": "",
+            "category": 1,
+            "price": "40000.00",
+            "created_at": "2024-09-14T23:12:50.111Z",
+            "updated_at": "2024-09-14T23:12:50.111Z"
+        }
+    },
+    {
+        "model": "catalog.product",
+        "pk": 2,
+        "fields": {
+            "name": "HP M454",
+            "description": "Лазерный принтер. Цветной.",
+            "image": "",
+            "category": 1,
+            "price": "50000.00",
+            "created_at": "2024-09-14T23:17:57.050Z",
+            "updated_at": "2024-09-14T23:17:57.050Z"
+        }
+    },
+    {
+        "model": "catalog.product",
+        "pk": 3,
+        "fields": {
+            "name": "HP M479",
+            "description": "Лазерный МФУ. Цветной.",
+            "image": "",
+            "category": 2,
+            "price": "60000.00",
+            "created_at": "2024-09-14T23:29:49.078Z",
+            "updated_at": "2024-09-14T23:29:49.078Z"
+        }
+    },
+    {
+        "model": "catalog.product",
+        "pk": 4,
+        "fields": {
+            "name": "HP M612",
+            "description": "Лазерный принтер. Большой. Тяжелый. Быстрый. Кубик.",
+            "image": "",
+            "category": 1,
+            "price": "100000.00",
+            "created_at": "2024-09-14T23:38:43.010Z",
+            "updated_at": "2024-09-14T23:38:43.010Z"
+        }
+    },
+    {
+        "model": "catalog.category",
+        "pk": 1,
+        "fields": {
+            "name": "Принтеры",
+            "description": "Категория для всех типов принтеров.",
+            "created_at": "2024-09-14T23:12:13.242Z",
+            "updated_at": "2024-09-14T23:12:13.242Z"
+        }
+    },
+    {
+        "model": "catalog.category",
+        "pk": 2,
+        "fields": {
+            "name": "МФУ",
+            "description": "Категория для многофункциональных устройств.",
+            "created_at": "2024-09-14T23:19:19.457Z",
+            "updated_at": "2024-09-14T23:19:19.457Z"
+        }
+    }
+]
