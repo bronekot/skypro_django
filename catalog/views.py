@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import View
@@ -26,7 +27,7 @@ class ContactsView(View):
         return render(request, "contacts.html")
 
 
-class ProductDetailView(DetailView):
+class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
     template_name = "product_detail.html"
     context_object_name = "object"
@@ -37,29 +38,37 @@ class ProductDetailView(DetailView):
         return context
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy("catalog:home")
 
     def form_valid(self, form):
-        messages.success(self.request, "Продукт успешно создан.")
+        product = form.save(commit=False)
+        product.owner = self.request.user
+        product.save()
         return super().form_valid(form)
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy("catalog:home")
+
+    def get_queryset(self):
+        return Product.objects.filter(owner=self.request.user)
 
     def form_valid(self, form):
         messages.success(self.request, "Продукт успешно обновлен.")
         return super().form_valid(form)
 
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
     success_url = reverse_lazy("catalog:home")
+
+    def get_queryset(self):
+        return Product.objects.filter(owner=self.request.user)
 
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, "Продукт успешно удален.")
@@ -122,6 +131,34 @@ class BlogPostUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse_lazy("catalog:blogpost_detail", args=[self.object.pk])
+
+
+class BlogPostDeleteView(DeleteView):
+    model = BlogPost
+    template_name = "blogpost_confirm_delete.html"
+    success_url = reverse_lazy("catalog:blogpost_list")
+    success_url = reverse_lazy("catalog:blogpost_list")
+
+
+class BlogPostDeleteView(DeleteView):
+    model = BlogPost
+    template_name = "blogpost_confirm_delete.html"
+    success_url = reverse_lazy("catalog:blogpost_list")
+    success_url = reverse_lazy("catalog:blogpost_list")
+
+
+class BlogPostDeleteView(DeleteView):
+    model = BlogPost
+    template_name = "blogpost_confirm_delete.html"
+    success_url = reverse_lazy("catalog:blogpost_list")
+    success_url = reverse_lazy("catalog:blogpost_list")
+
+
+class BlogPostDeleteView(DeleteView):
+    model = BlogPost
+    template_name = "blogpost_confirm_delete.html"
+    success_url = reverse_lazy("catalog:blogpost_list")
+    success_url = reverse_lazy("catalog:blogpost_list")
 
 
 class BlogPostDeleteView(DeleteView):

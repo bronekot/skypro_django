@@ -1,4 +1,5 @@
 from django import template
+from django.conf import settings
 
 register = template.Library()
 
@@ -6,5 +7,5 @@ register = template.Library()
 @register.filter(name="mymedia")
 def mymedia(data):
     if data:
-        return f"/media/{data}"
+        return f"{settings.MEDIA_URL}{data}"
     return "#"
