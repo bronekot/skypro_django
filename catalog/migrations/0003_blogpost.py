@@ -6,25 +6,54 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('catalog', '0002_alter_category_options_alter_product_options_and_more'),
+        (
+            "catalog",
+            "0002_alter_category_options_alter_product_options_and_more",
+        ),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='BlogPost',
+            name="BlogPost",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=255, verbose_name='Заголовок')),
-                ('slug', models.CharField(max_length=255, unique=True, verbose_name='Слаг')),
-                ('content', models.TextField(verbose_name='Содержимое')),
-                ('preview_image', models.ImageField(upload_to='previews/', verbose_name='Превью изображение')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')),
-                ('is_published', models.BooleanField(default=False, verbose_name='Опубликовано')),
-                ('view_count', models.IntegerField(default=0, verbose_name='Количество просмотров')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "title",
+                    models.CharField(max_length=255, verbose_name="Заголовок"),
+                ),
+                (
+                    "slug",
+                    models.CharField(max_length=255, unique=True, verbose_name="Слаг"),
+                ),
+                ("content", models.TextField(verbose_name="Содержимое")),
+                (
+                    "preview_image",
+                    models.ImageField(upload_to="previews/", verbose_name="Превью изображение"),
+                ),
+                (
+                    "created_at",
+                    models.DateTimeField(auto_now_add=True, verbose_name="Дата создания"),
+                ),
+                (
+                    "is_published",
+                    models.BooleanField(default=False, verbose_name="Опубликовано"),
+                ),
+                (
+                    "view_count",
+                    models.IntegerField(default=0, verbose_name="Количество просмотров"),
+                ),
             ],
             options={
-                'verbose_name': 'Блоговая запись',
-                'verbose_name_plural': 'Блоговые записи',
+                "verbose_name": "Блоговая запись",
+                "verbose_name_plural": "Блоговые записи",
             },
         ),
     ]
