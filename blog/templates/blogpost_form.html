@@ -1,0 +1,16 @@
+{% extends "includes/base.html" %}
+{% block content %}
+    <h1>
+        {% if form.instance.pk %}
+            Редактировать
+        {% else %}
+            Создать
+        {% endif %}
+        блоговую запись
+    </h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Сохранить</button>
+    </form>
+{% endblock %}

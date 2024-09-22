@@ -19,14 +19,13 @@ class Product(models.Model):
 
     name = models.CharField(max_length=255, verbose_name="Наименование")
     description = models.TextField(verbose_name="Описание")
-    image = models.ImageField(
-        upload_to="products/", verbose_name="Изображение", null=True, blank=True
-    )
+    image = models.ImageField(upload_to="products/", verbose_name="Изображение", null=True, blank=True)
     category = models.ForeignKey("Category", on_delete=models.CASCADE, verbose_name="Категория")
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Цена")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    is_published = models.BooleanField(default=False, verbose_name="Опубликовано")
 
     def __str__(self):
         return str(self.name)
@@ -37,6 +36,12 @@ class Product(models.Model):
     class Meta:
         verbose_name = "Продукт"
         verbose_name_plural = "Продукты"
+
+        permissions = [
+            ("can_unpublish_product", "Может отменять публикацию продукта"),
+            ("can_change_product_description", "Может менять описание любого продукта"),
+            ("can_change_product_category", "Может менять категорию любого продукта"),
+        ]
 
 
 class Category(models.Model):
@@ -75,47 +80,9 @@ class Version(models.Model):
 
     def save(self, *args, **kwargs):
         if self.is_current:
-            Version.objects.filter(product=self.product).exclude(pk=self.pk).update(
-                is_current=False
-            )
+            Version.objects.filter(product=self.product).exclude(pk=self.pk).update(is_current=False)
         super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = "Версия"
         verbose_name_plural = "Версии"
-
-
-class BlogPost(models.Model):
-    """
-    Представляет блоговую запись.
-    Атрибуты:
-        title (str): Заголовок записи.
-        slug (str): Слаг записи.
-        content (str): Содержимое записи.
-        preview_image (ImageField): Превью изображение записи.
-        created_at (DateTimeField): Дата и время создания записи.
-        is_published (bool): Признак публикации записи.
-        view_count (int): Количество просмотров записи.
-    Методы:
-        __str__(): Возвращает строковое представление записи.
-    """
-
-    title = models.CharField(max_length=255, verbose_name="Заголовок")
-    slug = models.CharField(max_length=255, unique=True, verbose_name="Слаг")
-    content = models.TextField(verbose_name="Содержимое")
-    preview_image = models.ImageField(
-        upload_to="previews/",
-        verbose_name="Превью изображение",
-        null=True,
-        blank=True,
-    )
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
-    is_published = models.BooleanField(default=False, verbose_name="Опубликовано")
-    view_count = models.IntegerField(default=0, verbose_name="Количество просмотров")
-
-    def __str__(self):
-        return str(self.title)
-
-    class Meta:
-        verbose_name = "Блоговая запись"
-        verbose_name_plural = "Блоговые записи"

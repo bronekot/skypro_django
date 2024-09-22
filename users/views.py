@@ -22,9 +22,7 @@ class PasswordRecoveryView(FormView):
         email = form.cleaned_data["email"]
         user = get_user_model().objects.get(email=email)
         if user:
-            new_password = "".join(
-                random.choice(string.ascii_letters + string.digits) for _ in range(8)
-            )
+            new_password = "".join(random.choice(string.ascii_letters + string.digits) for _ in range(8))
             user.set_password(new_password)
             user.save()
             send_mail(
@@ -43,9 +41,7 @@ class LoginView(FormView):
     success_url = reverse_lazy("catalog:home")
 
     def form_valid(self, form):
-        user = authenticate(
-            email=form.cleaned_data["email"], password=form.cleaned_data["password"]
-        )
+        user = authenticate(email=form.cleaned_data["email"], password=form.cleaned_data["password"])
         if user is not None:
             login(self.request, user)
             return redirect("catalog:home")

@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "includes/base.html" %}
 {% block content %}
     <h1>{{ blogpost.title }}</h1>
     <p>{{ blogpost.content }}</p>
@@ -10,6 +10,6 @@
     <p>Дата создания: {{ blogpost.created_at }}</p>
     <p>Опубликовано: {{ blogpost.is_published }}</p>
     <p>Количество просмотров: {{ blogpost.view_count }}</p>
-    <a href="{% url 'catalog:blogpost_update' blogpost.pk %}">Редактировать</a>
-    <a href="{% url 'catalog:blogpost_delete' blogpost.pk %}">Удалить</a>
+    <a href="{% url 'blog:blogpost_update' blogpost.pk %}">Редактировать</a>
+    <a href="{% url 'blog:blogpost_delete' blogpost.pk %}">Удалить</a>
 {% endblock %}
