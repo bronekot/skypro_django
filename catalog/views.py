@@ -3,7 +3,16 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
+from .models import Category
+from .services import get_categories, get_products
+from django.views.decorators.cache import cache_page
+from django.views.generic import (
+    CreateView,
+    DeleteView,
+    DetailView,
+    ListView,
+    UpdateView,
+)
 
 from .forms import ProductForm, VersionForm
 from .models import Product, Version
@@ -27,10 +36,14 @@ class ContactsView(View):
         return render(request, "contacts.html")
 
 
-class ProductDetailView(LoginRequiredMixin, DetailView):
+class ProductDetailView(DetailView):
     model = Product
     template_name = "catalog/product_detail.html"
     context_object_name = "object"
+
+    @cache_page(60 * 15)  # кешировать на 15 минут
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -93,3 +106,21 @@ class VersionUpdateView(UpdateView):
     def form_valid(self, form):
         messages.success(self.request, "Версия успешно обновлена.")
         return super().form_valid(form)
+
+
+class CategoryListView(ListView):
+    model = Category
+    template_name = "category_list.html"
+    context_object_name = "categories"
+
+    def get_queryset(self):
+        return get_categories()
+
+
+class ProductListView(ListView):
+    model = Product
+    template_name = "product_list.html"
+    context_object_name = "products"
+
+    def get_queryset(self):
+        return get_products()
